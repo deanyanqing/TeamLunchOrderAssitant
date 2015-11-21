@@ -7,4 +7,6 @@ An internal order managerment website:
   All the food inforamtin retrieve from takeaway website such as elem, this only aim to serve as wrapper to team with more 
   foud management functionlity and fun.
   
+  These source code tested in linux with Python3.4.
+  
   Enjoy!
