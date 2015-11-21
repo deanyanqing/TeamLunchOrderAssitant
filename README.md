@@ -8,5 +8,5 @@ An internal order managerment website:
   foud management functionlity and fun.
   
   These source code tested in linux with Python3.4.
-  
+  Actually learn Python in pratice is one of motivation to develop this project.
   Enjoy!
