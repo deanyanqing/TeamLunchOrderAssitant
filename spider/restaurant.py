@@ -3,7 +3,7 @@ Created on Jun 2, 2015
 
 @author: qiwei
 '''
-from html_handler import HtmlHandler 
+from spider.html_handler import HtmlHandler 
 import os
 import re
 '''
@@ -12,6 +12,8 @@ import re
 class Restaurant():
     '''
     classdocs
+    
+    Need to invoke update_menu to get the detail menu
     '''
     dataSrcDir=os.path.join(os.environ['HOME'],'lunchRes','image')
     if not os.path.exists(dataSrcDir):
@@ -26,7 +28,9 @@ class Restaurant():
         self.hot_foods=[]
         self.billboard=''
 
-    
+    def dump(self):
+        print(self.url, self.rst_id,self.img_url,self.arrive_time,self.name,self.sales,self.delivery_limit,self.discount)
+        
     def update_menu(self):
         handler=HtmlHandler(self.url)
         self.catalogues=handler.phaseHtml()

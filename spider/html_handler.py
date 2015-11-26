@@ -11,7 +11,7 @@ from urllib.error import URLError,HTTPError
 from bs4 import BeautifulSoup
 import re
 import json
-from food import  FoodCatalogue
+from spider.food import  FoodCatalogue
 import os
 class HtmlHandler():
     #mealRecordRe = re.compile("^food_view_\d+")

@@ -3,50 +3,26 @@ Created on Nov 13, 2015
 
 @author: qiwei
 '''
-from selenium import webdriver
+
 from selenium.webdriver.common.keys import Keys
 import time
-from selenium.webdriver.chrome.options import Options
-from check_proxy import has_proxy
-from generate_chrome_proxy import generate_chrome_proxy
-import os.path
-from  restaurant import Restaurant
+
+from spider.restaurant import Restaurant
+from spider.login import Login
+from spider.utility import *
 
 CSS_OF_SEARCH = '#globalsearch'
 CSS_OF_MENU_LIST = 'div.place-rstbox.clearfix > div.clearfix > a ~ a'
 
 class RestauntsManager():
+    '''
+    self.restaunts : list of spider.Restaurant
+    
+    '''
 
     def __init__(self, location):
         self.update_nearby(location)
-    
-    def web_driver_no_proxy(self):
-        driver = webdriver.Firefox()
-        return driver
-    def web_driver_with_proxy(self):
-        #fix proxy problem 
-        #profile = webdriver.FirefoxProfile()
-        #profile.set_preference("network.proxy.type", 1);
-        #profile.set_preference('network.proxy.http', "114.66.81.130")
-        #profile.set_preference("network.proxy.http_port", 8080);
-        #driver = webdriver.Firefox(firefox_profile=profile)
-    
-        pluginfile = 'proxy_auth_plugin.zip'
-        if  False == os.path.exists(pluginfile):
-            generate_chrome_proxy()
-        
-        
-        co = Options()
-        co.add_argument("--start-minimized")
-        co.add_extension(pluginfile)
-        
-        driver = webdriver.Chrome(chrome_options=co)
-        return driver
-    def web_driver(self):    
-        if has_proxy():
-            return self.web_driver_with_proxy()
-        else:
-            return self.web_driver_no_proxy()
+
         
     #def fix_proxy_cdl(self,driver):
         #driver.send_keys(Keys.TAB)
@@ -54,6 +30,9 @@ class RestauntsManager():
         #alert = driver.switch_to_alert
         #alert.authenticate('','')
         
+    def all_restaunt(self):    
+        return self.restaunts
+    
     def select_restaunt(self,id):  
         pass
       
@@ -62,12 +41,11 @@ class RestauntsManager():
         return 'http://ele.me/place/wtw3s4bd4p4'
     def update_nearby(self,location):
         url = self.url_of_location(location)
-        driver = self.web_driver()
+        driver = web_driver()
+        Login(driver)
         driver.get(url)
         
-        time.sleep(2)
-        
-        #user cookie to login
+        time.sleep(5)
         
         #Aim to triggle javascript to get more restaunts         
         search = driver.find_element_by_css_selector(CSS_OF_SEARCH)
@@ -102,4 +80,7 @@ class RestauntsManager():
         for info in restaunt_infos:
             self.restaunts.append(Restaurant(info))
     
-restaunt_manager = RestauntsManager('shanghai')        
+    def dump(self):  
+        for restaunt in self.restaunts:
+            restaunt.dump()
+        
