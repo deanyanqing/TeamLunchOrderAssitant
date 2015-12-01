@@ -12,7 +12,11 @@ import re
 class Restaurant():
     '''
     classdocs
+<<<<<<< HEAD
     
+=======
+    Out of date since there is no JSON embed in HTML
+>>>>>>> Adopt to eleme update
     Need to invoke update_menu to get the detail menu
     '''
     dataSrcDir=os.path.join(os.environ['HOME'],'lunchRes','image')
@@ -23,14 +27,18 @@ class Restaurant():
     
     def __init__(self, basic_info):
         (_,self.url , self.rst_id,self.img_url, info) = basic_info
-        (self.arrive_time,self.name,self.sales,self.delivery_limit,self.discount ) = self.exatc_re.search(info).group(1,2,3,4,5)
+        #print(info)
+        (self.arrive_time,self.name,self.sales,self.delivery_limit,self.promotion ) = info
         self.foods={}
         self.hot_foods=[]
         self.billboard=''
 
     def dump(self):
-        print(self.url, self.rst_id,self.img_url,self.arrive_time,self.name,self.sales,self.delivery_limit,self.discount)
+        print(self.url, self.rst_id,self.img_url,self.arrive_time,self.name,self.sales,self.delivery_limit,self.promotion)
         
+    def dump_menu(self):
+        for c in self.catalogues:
+            c.dump()    
     def update_menu(self):
         handler=HtmlHandler(self.url)
         self.catalogues=handler.phaseHtml()

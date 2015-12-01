@@ -42,7 +42,7 @@ class RestauntsManager():
     def update_nearby(self,location):
         url = self.url_of_location(location)
         driver = web_driver()
-        Login(driver)
+        #Login(driver)
         driver.get(url)
         
         time.sleep(5)
@@ -65,13 +65,39 @@ class RestauntsManager():
         restaunt_infos =[]
         restaunt_id = 0
         for each in elem:
-            info = each.text
             url = each.get_attribute('href')
             rst_id = each.get_attribute('data-rst-id')
             img = each.find_element_by_class_name('rstblock-logo-icon')
             img_url = img.get_attribute('src')
+            
+            #default value 
+            arrive_time =''
+            month_sales = 0
+            cost = ''
+            promotion = ''
+
+                            
+            element_content = each.find_element_by_class_name('rstblock-content')            
+            try:
+                title = element_content.find_element_by_class_name('rstblock-title').text
+                month_sales = element_content.find_element_by_class_name('rstblock-monthsales').text
+                cost = element_content.find_element_by_class_name('rstblock-cost').text
+                promotion = element_content.find_element_by_class_name('rstblock-activity').text
+            except:
+                print('Catch excepiton in restaunt',title)
+             
+            try: 
+                arrive_time = each.find_element_by_class_name('rstblock-logo').find_element_by_tag_name('span').text
+            except:
+                #Don'know arrive time has no meaning,skiping this
+                print('Skiping  the unknow arrive time of restaunt', title)
+                continue    
+            
+            #info = each.text
+            info = (arrive_time,title,month_sales,cost,promotion)
             restaunt_infos.append((restaunt_id,url,rst_id,img_url,info))
             restaunt_id = restaunt_id + 1
+            #print(info)
             #print(img_url,rst_id,url,basic_info)
         driver.close()
         
@@ -80,6 +106,11 @@ class RestauntsManager():
         for info in restaunt_infos:
             self.restaunts.append(Restaurant(info))
     
+            
+    def refresh_all_restaunt(self):
+        for r in self.restaunts:
+            r.update_menu()
+            r.dump_menu()
     def dump(self):  
         for restaunt in self.restaunts:
             restaunt.dump()

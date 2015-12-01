@@ -77,3 +77,8 @@ class FoodCatalogue():
         self.foods=self.getFood(json['foods'])
         self.categ=json['categ']
         self.isActivity=json['isActivity']
+        
+    def dump(self):
+        print(self.categId,self.mustNewUser,self.description,self.mustPayOnline,self.categ,self.isActivity)
+        for food in self.foods:
+            food.dump()
