@@ -6,6 +6,8 @@ Created on Nov 18, 2015
 import zipfile
 
 # Replace with host port,username and password with your private setting
+# @TODO　Save in username/password in file or environment varible
+
 def generate_chrome_proxy():
         manifest_json = """
         {
@@ -40,29 +42,31 @@ def generate_chrome_proxy():
                   bypassList: ["foobar.com"]
                 }
               };
-        
+
+
+
         chrome.proxy.settings.set({value: config, scope: "regular"}, function() {});
-        
+
         function callbackFn(details) {
             return {
                 authCredentials: {
-                    username: "qta2475",
-                    password: "password"
+                    username: "",
+                    password: ""
                 }
             };
         }
-        
+
         chrome.webRequest.onAuthRequired.addListener(
                     callbackFn,
                     {urls: ["<all_urls>"]},
                     ['blocking']
         );
         """
-        
-        
+
         pluginfile = 'proxy_auth_plugin.zip'
-        
+
         with zipfile.ZipFile(pluginfile, 'w') as zp:
             zp.writestr("manifest.json", manifest_json)
             zp.writestr("background.js", background_js)
-        
+
+generate_chrome_proxy()
