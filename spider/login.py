@@ -8,7 +8,7 @@ import time
 
 ELEME_URL = 'https://account.ele.me/login'
 USER_NAME = ''
-USER_PASSWORD =''
+USER_PASSWORD = ''
 class Login():
 
     def __init__(self, webdriver):
@@ -23,6 +23,6 @@ class Login():
 
         time.sleep(10)
 
-        #ok = webdriver.find_element_by_css_selector('body > div > div > div > div > div:nth-child(2) > form > div:nth-child(6) > button')
-        #ok.click()
-        #webdriver.manage().add_cookie(cookie())
+        # ok = webdriver.find_element_by_css_selector('body > div > div > div > div > div:nth-child(2) > form > div:nth-child(6) > button')
+        # ok.click()
+        # webdriver.manage().add_cookie(cookie())

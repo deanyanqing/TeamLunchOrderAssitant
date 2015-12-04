@@ -25,7 +25,7 @@ class ElemeRestaunt():
         driver = web_driver()
         driver.get(url)
         time.sleep(3)
-
+    
         element_catelogs = driver.find_elements_by_css_selector(CSS_FILTER)
         for catelog in element_catelogs:
             menus = catelog.find_elements_by_tag_name('div')
