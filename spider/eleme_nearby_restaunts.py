@@ -6,6 +6,7 @@ Created on Dec 5, 2015
 import urllib.request
 import json
 import copy
+from spider.eleme_restaunt import ElemeRestaunt
 
 URL_OF_CDL_NEARBY = ''''''
 URL_ELEME_API = 'http://www.ele.me/restapi/batch'
@@ -91,18 +92,20 @@ class ElemeNearbyRestauntManager():
 
         response = json.loads(response.readall().decode('utf-8'))
         restaunts, catalogas = self._parse_http_response(response)
+        print(restaunts[0]['id'])
+        return restaunts
 
-        def restaunt_object(self, restaunt_id):
-            '''
+    def restaunt_object(self, restaunt_id):
+        '''
             Get ElemeRestaunt object of specify restaunt_id
-            '''
-            pass
+        '''
+        restaunt_object = ElemeRestaunt(str(restaunt_id))
+        return restaunt_object
 
-        def menu_of_restaunt(self, restaunt_id):
-            '''
-            Get detail menu of  restaunt with specify restaunt_id
-            '''
-            pass
+    def menu_of_restaunt(self, restaunt_id):
+        '''
+        Get detail menu of  restaunt with specify restaunt_id
+        '''
+        pass
 
-neayRestuantsMgr = ElemeNearbyRestauntManager()
-neayRestuantsMgr.restuants('')
+

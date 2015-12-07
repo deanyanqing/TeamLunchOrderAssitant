@@ -21,11 +21,17 @@ class ElemeRestaunt():
         Maintain all detail menus of restaunt
         @param restaurant_id
         '''
+        self.id = restaurant_id
+        self.menu = { }
+
+    def load_menu(self):
         # No Host and Referere here ,otherwise rejected with errorcode=400
         header_dict = {'User-Agent':
                        'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0'}
 
-        values = {"timeout":10000,"requests":[{"method":"GET","url":"/v4/restaurants/" + restaurant_id+"/mutimenu"}, {"method":"GET","url":"/v1/users/favor/restaurants/"+ restaurant_id}]}
+        values = {"timeout":10000,"requests":[{"method":"GET","url":"/v4/restaurants/" + self.id+"/mutimenu"}
+                                              # {"method":"GET","url":"/v1/users/favor/restaurants/"+ self.id}
+                                              ]}
         datas = json.dumps(values)
 
         url_values = datas.encode(encoding='utf-8')
@@ -36,7 +42,16 @@ class ElemeRestaunt():
         response = urllib.request.urlopen(request)
         response = json.loads(response.readall().decode('utf-8'))
         # print(response)
-        self._parse_http_response(response)
+        menus = self._parse_http_response(response)
+        return menus
+    
+    # Highly dependency with http request 
+    def _parse_http_response(self, response_json):
+        #print(response_json)
+        menu_json = response_json[0]['body']
+        print(len(menu_json))
+        for menu in menu_json:
+            print(menu['name'])
 
-        def _parse_http_response(self, response_json):
-            pass
+    def refreseh_menu(self):
+        pass
