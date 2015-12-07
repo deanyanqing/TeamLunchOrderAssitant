@@ -9,7 +9,11 @@ import http.cookiejar
 
 IMAGE_URL = 'https://account.ele.me/restapi/v1/captchas/'
 
-
+cookie = http.cookiejar.CookieJar()
+cookieProc = urllib.request.HTTPCookieProcessor(cookie)
+opener = urllib.request.build_opener(cookieProc)
+urllib.request.install_opener(opener)
+print(cookie)
 class ElemeLogin():
     '''
     Step 1: Involke image_of_verificaiton to get verification image_of_verificaiton
@@ -27,15 +31,12 @@ class ElemeLogin():
         '''
             Get the url of verification image
         '''
-        cookie = http.cookiejar.CookieJar()
-        cookieProc = urllib.request.HTTPCookieProcessor(cookie)
-        opener = urllib.request.build_opener(cookieProc)
-        urllib.request.install_opener(opener)
+
 
         request = urllib.request.Request(method="POST", url=self.URL_VERIFICATION_IMAGE, headers=self.HEADER_DICT)
         request.add_header('Accept', 'application/json, text/plain, */*')
         response = urllib.request.urlopen(request)
-        print(response.info())
+        # print(response.info())
         response = json.loads(response.read().decode('utf-8'))
         url_image = IMAGE_URL + response['code']
         # print(image)
@@ -60,8 +61,14 @@ class ElemeLogin():
             response = urllib.request.urlopen(request)
             # print(response.info())
         except urllib.error.HTTPError as e:
-            print(e.read())
-            return {'success': False, 'error': e.read()}
+            error = e.read()
+            print(error)
+            return {'success': False, 'error': str(error)}
         response = json.loads(response.read().decode('utf-8'))
-        # print(response)
-        return {'success': True, 'error': response.read()}
+        
+        '''
+        for ck in cookie:
+            print(ck.name,':',ck.value)
+        '''
+        self.user_id = response['user_id']
+        return {'success': True, 'error': response}
