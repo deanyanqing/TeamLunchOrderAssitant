@@ -10,4 +10,4 @@ from spider.eleme_restaunt import ElemeRestaunt
 # restaunt_manager.dump()
 # restaunt_manager.refresh_all_restaunt()
 
-restaunt = ElemeRestaunt('http://www.ele.me/shop/389022', '')
+restaunt = ElemeRestaunt()
