@@ -36,8 +36,8 @@ class ElemeRestaunt():
                                                  # {"method":"GET","url":"/v1/users/favor/restaurants/"+ self.id}
                                                  ]}
         datas = json.dumps(values)
-
         url_values = datas.encode(encoding='utf-8')
+        
         request = urllib.request.Request(method="POST", url=URL_ELEME_API, data=url_values, headers=header_dict)
         request.add_header('Accept', 'application/json, text/plain, */*')
         # request.add_header('Content-Length', '147')
