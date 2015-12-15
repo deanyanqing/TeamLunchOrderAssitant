@@ -32,15 +32,12 @@ class ElemeLogin():
             Get the url of verification image
         '''
 
-
         request = urllib.request.Request(method="POST", url=self.URL_VERIFICATION_IMAGE, headers=self.HEADER_DICT)
         request.add_header('Accept', 'application/json, text/plain, */*')
         response = urllib.request.urlopen(request)
         # print(response.info())
         response = json.loads(response.read().decode('utf-8'))
         url_image = IMAGE_URL + response['code']
-        # print(image)
-
         # (file_local, header) = urllib.request.urlretrieve(url_image)
         # print(file_local)
         return url_image
@@ -65,7 +62,7 @@ class ElemeLogin():
             print(error)
             return {'success': False, 'error': str(error)}
         response = json.loads(response.read().decode('utf-8'))
-        
+
         '''
         for ck in cookie:
             print(ck.name,':',ck.value)
