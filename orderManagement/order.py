@@ -5,8 +5,8 @@ Created on Nov 20, 2015
 '''
 import urllib.request
 import json
-from . login import ElemeLogin
-from . login import cookie
+
+from login import cookie
 
 URL_CHECKOUT = 'http://www.ele.me/restapi/v1/carts/checkout'
 
@@ -54,7 +54,8 @@ class Order():
         '''
         values = {"action": "checkout", "come_from": "web", "geohash": "wtw3s4bd4p4",
                   "entities": []}
-        values['entities'][0] = orders
+        print(values['entities'])
+        values['entities'].append(orders)
         values = json.dumps(values)
         url_values = values.encode(encoding='utf-8')
 
@@ -65,7 +66,7 @@ class Order():
 
         values = {"action": "checkout", "come_from": "web", "geohash": "wtw3s4bd4p4",
                   "entities": []}
-        values['entities'][0] = orders
+        values['entities'].append(orders)
         values = json.dumps(values)
         url_values = values.encode(encoding='utf-8')
         request = urllib.request.Request(method="POST", url=URL_CHECKOUT, data=url_values, headers=self.HEADER_DICT)
@@ -141,6 +142,6 @@ class Order():
         response = json.loads(response.read().decode('utf-8'))
         validate_token = response['validate_token']
         print(validate_token)
-        
+
     def _query_order(self):
         pass

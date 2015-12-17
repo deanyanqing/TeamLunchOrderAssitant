@@ -60,7 +60,7 @@ class ElemeLogin():
         except urllib.error.HTTPError as e:
             error = e.read()
             print(error)
-            return {'success': False, 'error': str(error)}
+            return {'success': False, 'info': str(error)}
         response = json.loads(response.read().decode('utf-8'))
 
         '''
@@ -68,4 +68,4 @@ class ElemeLogin():
             print(ck.name,':',ck.value)
         '''
         self.user_id = response['user_id']
-        return {'success': True, 'error': response}
+        return {'success': True, 'info': response}
